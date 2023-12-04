@@ -9,7 +9,30 @@ const Home = () =>{
     const navigate  = useNavigate();
     
     const validar = (usuario, password) =>{
-        navigate('/menu');
+        let condicion = false;
+
+        fetch('Login?User='+usuario+'&password='+password+'')
+        .then(response => response.text())
+        .then(usuario =>{
+            let respuesta = usuario.includes("yes");
+            if (respuesta){
+                Swal.fire(
+                    'Bienvenido',
+                    'Usuario valido',
+                    'success'
+                )
+                navigate('/menu');
+                    
+            }else{
+                Swal.fire(
+                    'Usuario incorrecto',
+                    'Por favor ingresa nuevamente el usuario o contraseña',
+                    'error'
+                )
+                document.getElementById("User").value = "";
+                document.getElementById("password").value = "";
+            }
+        })        
     }
         return (
                  <div class="container col-xl-10 col-xxl-8 d-flex justify-content-center align-items-center 100-w vh-100">
